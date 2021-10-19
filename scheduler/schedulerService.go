@@ -1,16 +1,17 @@
 package scheduler
 
 import (
-	"fmt"
-	"net/http"
 	"github.com/jasonlvhit/gocron"
+	"log"
+	"net/http"
 )
 
 func Scheduler() {
+	gocron.Every(10).Minutes().Do(ping)
 	gocron.Start()
 }
 
 func ping() {
-	fmt.Println("ping ping ping")
+	log.Println("ping ping ping")
 	_, _ = http.Get("https://dmba-english.herokuapp.com/")
 }
