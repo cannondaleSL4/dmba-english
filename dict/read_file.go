@@ -7,15 +7,14 @@ import (
 	"strings"
 )
 
-type Words struct {
-	Dict map[string][]string
-	Done bool
-}
+//type Words struct {
+//	Dict map[string][]string
+//	Done bool
+//}
 
-func Read() *[]Words {
+var wordsFromFile map[string]string = make(map[string]string)
 
-	var dict []Words
-
+func Read() *map[string]string {
 	file, err := os.Open("english")
 	if err != nil {
 		log.Fatal(err)
@@ -26,28 +25,18 @@ func Read() *[]Words {
 	for scanner.Scan() {
 		strArray := strings.Split(scanner.Text(), "/")
 		if len(strArray) == 2 {
-			dictLocal := make(map[string][]string)
-			key := strings.ReplaceAll(strArray[0], " ", "")
-			val := strings.Split(strArray[1], ",")
-			stripStringInArray(val)
-			dictLocal[key] = val
-			element := Words{
-				Dict: dictLocal,
-				Done: false,
+			key := strings.TrimSpace(strArray[0])
+			val := strings.TrimSpace(strArray[1])
+
+			var arr []string
+			for _, element := range strings.Split(val, ",") {
+				arr = append(arr, strings.TrimSpace(element))
 			}
-			dict = append(dict, element)
+			wordsFromFile[key] = strings.Join(arr, ",")
 		}
 	}
-
 	if err := scanner.Err(); err != nil {
 		log.Fatal(err)
 	}
-
-	return &dict
-}
-
-func stripStringInArray(strArr []string) {
-	for _, s := range strArr {
-		s = strings.ReplaceAll(s, " ", "")
-	}
+	return &wordsFromFile
 }

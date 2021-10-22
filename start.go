@@ -15,12 +15,13 @@ import (
 
 func main() {
 	Scheduler()
-	dict.Read()
 	port := flag.String("port", os.Getenv("PORT"), "app port")
 	if len(*port) == 0 {
 		*port = "3000"
 	}
-	db.Test()
+	//db.Test()
+
+	db.InsertData(*dict.Read())
 	rtr := mux.NewRouter()
 	rtr.HandleFunc("/", controller.PingHandler)
 	http.Handle("/", rtr)

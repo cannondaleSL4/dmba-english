@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS dict (
 
 CREATE TABLE IF NOT EXISTS users (
      users_id serial NOT NULL PRIMARY KEY,
-     user_number VARCHAR (50)  NOT NULL
+     user_number integer UNIQUE NOT NULL
     );
 
 CREATE TABLE IF NOT EXISTS dict_user (
@@ -14,3 +14,5 @@ CREATE TABLE IF NOT EXISTS dict_user (
     users_id int REFERENCES users (users_id) ON UPDATE CASCADE ON DELETE CASCADE,
     done BOOLEAN DEFAULT FALSE NOT NULL
     );
+
+-- drop table dict,dict_user,users;
